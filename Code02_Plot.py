@@ -155,6 +155,8 @@ sns.violinplot(
     palette='Set2'
 )
 
+plt.show()
+
 ## violin plot for loss_retention_array_blocked_array and loss_retention_array_random_array and loss_test_array_blocked_array and loss_test_array_random_array
 # first vectorize the those four arrays
 loss_retention_array_blocked_vec = loss_retention_array_blocked_array.flatten()
