@@ -55,13 +55,13 @@ print('\n\nDifference between blocked and random practice')
 # paired t-test for loss_retention_blocked_array and loss_retention_random_array
 from scipy.stats import ttest_rel
 t_stat, p_value = ttest_rel(loss_retention_blocked_array, loss_retention_random_array)
-print(f't-statistic: {t_stat}, p-value: {p_value}')
+print(f'Retention -- t-statistic: {t_stat}, p-value: {p_value}')
 # paired t-test for loss_test_blocked_array and loss_test_random_array
 t_stat, p_value = ttest_rel(loss_test_blocked_array, loss_test_random_array)
-print(f't-statistic: {t_stat}, p-value: {p_value}')
+print(f'Transfer -- t-statistic: {t_stat}, p-value: {p_value}')
 
 ## diplay the mean and std of six divisions of one depicted retention performance
-print('one depicted Retention Performance (mean ± std)')
+print('\nOne depicted Retention Performance (mean ± std)')
 iter_idx = 2
 mean_loss_array_blocked_6_first = np.mean(np.split(loss_retention_array_blocked_array[iter_idx, :], 6), axis=1)
 std_loss_array_blocked_6_first = np.std(np.split(loss_retention_array_blocked_array[iter_idx, :], 6), axis=1)
@@ -132,6 +132,29 @@ plt.legend(loc='upper left')
 plt.title('Comparison of Blocked and Random Practice')
 plt.show()
 
+
+## violin plot for six different retention performances in blocked practice
+loss_retention_array_blocked_six = np.split(loss_retention_array_blocked_array, 6, axis=1)
+# flatten each array
+loss_retention_array_blocked_six_vec = [arr.flatten() for arr in loss_retention_array_blocked_six]
+# import seaborn and pandas
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+# dataframe for main
+df_blocked = pd.DataFrame({
+    'Loss': np.concatenate(loss_retention_array_blocked_six_vec),
+    'Phase': np.concatenate([['Seq-' + str(i+1)] * len(loss_retention_array_blocked_six_vec[i]) for i in range(6)])
+})
+# Create the violin plot
+plt.figure(figsize=(10, 6))
+sns.violinplot(
+    x='Phase',
+    y='Loss',
+    data=df_blocked,
+    palette='Set2'
+)
+
 ## violin plot for loss_retention_array_blocked_array and loss_retention_array_random_array and loss_test_array_blocked_array and loss_test_array_random_array
 # first vectorize the those four arrays
 loss_retention_array_blocked_vec = loss_retention_array_blocked_array.flatten()
@@ -192,6 +215,8 @@ sns.violinplot(
 
 plt.legend(title='Type', loc='upper left')
 plt.show()
+
+# first vectorize the those four arrays
 
 ## violin plot for one depicted retention performance
 # first vectorize the those four arrays
