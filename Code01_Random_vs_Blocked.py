@@ -20,8 +20,6 @@ def run_model():
     num_pre_training_sequences = 10  # Number of different pre-training sequences (e.g., simpler motor tasks)
     num_test_sequences = 100  # Number of different test sequences (e.g., novel motor tasks)
 
-    total_num_epochs = 30000 # Total number of epochs for training
-
     lr = 0.02  # Learning rate
 
     # Generate synthetic data for both practices
@@ -36,7 +34,8 @@ def run_model():
     model1 = MotorLearningRNN(input_size, hidden_size, output_size, num_outputs=input_size)
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer1 = optim.Adam(model1.parameters(), lr=lr)
+    # optimizer1 = optim.Adam(model1.parameters(), lr=lr)
+    optimizer1 = optim.SGD(model1.parameters(), lr=lr, momentum=0.0)
 
     ### Pre-training and pre-test
     total_num_epochs_pre = X_pre.shape[0] // batch_size
@@ -46,8 +45,10 @@ def run_model():
     # copy model1  to model2
     model2 = deepcopy(model1)
 
-    optimizer1 = optim.Adam(model1.parameters(), lr=lr)
-    optimizer2 = optim.Adam(model2.parameters(), lr=lr)
+    # optimizer1 = optim.Adam(model1.parameters(), lr=lr)
+    # optimizer2 = optim.Adam(model2.parameters(), lr=lr)
+    optimizer1 = optim.SGD(model1.parameters(), lr=lr, momentum=0.0)
+    optimizer2 = optim.SGD(model2.parameters(), lr=lr, momentum=0.0)
 
     # Train and evaluate the model for both practices
     total_num_epochs_train = X_blocked.shape[0] // batch_size
