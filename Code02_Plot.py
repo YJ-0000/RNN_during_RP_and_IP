@@ -1,7 +1,10 @@
 import numpy as np
+import os
+import matplotlib
+# matplotlib.use("Agg")  # Uncomment if necessary
 import matplotlib.pyplot as plt
 
-results_folder = 'results_lr_0_02/'
+results_folder = 'results_lr_0_02_save/'
 
 # load the results
 loss_test_pre_array = np.load(results_folder + 'loss_test_pre_array.npy')
@@ -100,6 +103,8 @@ plt.ylim(0, 2.5)
 plt.legend()
 plt.title('Learning graph of each six epochs')
 plt.show()
+plt.savefig("images/Learning_six_epochs.jpg", dpi=600, bbox_inches="tight")
+plt.close()
 
 
 # Plot the results of the mean and error bar of the loss
@@ -116,6 +121,8 @@ plt.ylim(0, 2.5)
 plt.legend()
 plt.title('Learning graph')
 plt.show()
+plt.savefig("images/Learning.jpg", dpi=600, bbox_inches="tight")
+plt.close()
 
 
 # Grouped bar chart the results of the mean and error bar of the loss for pre, retention, and test
@@ -129,9 +136,10 @@ plt.xticks([r + barWidth/2 for r in range(3)], ['Pre', 'Retention', 'Transfer'])
 plt.ylabel('Loss')
 # plt.ylim(2, 8.5)
 plt.legend(loc='upper left')
-plt.title('Comparison of Blocked and Random Practice')
+plt.title('Comparison of Repeated and Interleaved Practice')
 plt.show()
-
+plt.savefig("images/Comparison_RP_IP.jpg", dpi=600, bbox_inches="tight")
+plt.close()
 
 def plot_with_ci(data_blocked, data_random, xlabel, ylabel, title):
     plt.figure()
@@ -155,23 +163,27 @@ def plot_with_ci(data_blocked, data_random, xlabel, ylabel, title):
     plt.fill_between(x, mean_random - ci_random, mean_random + ci_random, alpha=0.2)
 
     # paired t-test at each point
-    for i in range(mean_blocked.shape[0]):
-        _, p = ttest_rel(data_blocked[:, i], data_random[:, i])
+    # for i in range(mean_blocked.shape[0]):
+    #     _, p = ttest_rel(data_blocked[:, i], data_random[:, i])
 
-        if p < 0.05:
-            star = '*'
-        else:
-            star = ''
+    #     if p < 0.05:
+    #         star = '*'
+    #     else:
+    #         star = ''
 
-        if star:  # 유의미하면 annotation
-            y_max = max(mean_blocked[i] + ci_blocked[i], mean_random[i] + ci_random[i])
-            plt.text(i, y_max + 0.05, star, ha='center', va='bottom', fontsize=12, color='red')
+    #     if star:  # 유의미하면 annotation
+    #         y_max = max(mean_blocked[i] + ci_blocked[i], mean_random[i] + ci_random[i])
+    #         plt.text(i, y_max + 0.05, star, ha='center', va='bottom', fontsize=12, color='red')
 
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.legend(loc='lower right')
-    plt.title(title)
+    plt.xlabel(xlabel,fontsize=14)
+    plt.ylabel(ylabel,fontsize=14)
+    plt.legend(loc='lower right',fontsize=12, prop={"weight": "bold"})
+    plt.title(title, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     plt.show()
+    plt.savefig("images/" + title.replace(" ","_") + ".jpg", dpi=600)
+    plt.close()
 
 
 # Noise vulnerability test
@@ -214,7 +226,6 @@ loss_retention_array_random_each_vec = [arr.flatten() for arr in loss_retention_
 # import seaborn and pandas
 import seaborn as sns
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # dataframe for blocked
 df_blocked = pd.DataFrame({
@@ -244,6 +255,8 @@ sns.violinplot(
 )
 
 plt.show()
+plt.savefig("images/violin_retention_RP_IP.jpg", dpi=600, bbox_inches="tight")
+plt.close()
 
 ## violin plot for loss_retention_array_blocked_array and loss_retention_array_random_array and loss_test_array_blocked_array and loss_test_array_random_array
 # first vectorize the those four arrays
@@ -252,11 +265,6 @@ loss_retention_array_random_vec = loss_retention_array_random_array.flatten()
 loss_test_array_blocked_vec = loss_test_array_blocked_array.flatten()
 loss_test_array_random_vec = loss_test_array_random_array.flatten()
 loss_test_array_pre_vec = loss_test_array_pre_array.flatten()
-
-# import seaborn and pandas
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # dataframe for main
 df_main = pd.DataFrame({
@@ -298,6 +306,8 @@ sns.violinplot(
 
 plt.legend(title='Type', loc='upper left')
 plt.show()
+plt.savefig("images/violin_Generalization_pre_RP_IP.jpg", dpi=600, bbox_inches="tight")
+plt.close()
 
 # first vectorize the those four arrays
 
@@ -309,59 +319,6 @@ loss_test_array_blocked_first = loss_test_array_blocked_array[iter_idx, :]
 loss_test_array_random_first = loss_test_array_random_array[iter_idx, :]
 loss_test_array_pre_first = loss_test_array_pre_array[iter_idx, :]
 
-# import seaborn and pandas
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# dataframe for main
-df_main_first = pd.DataFrame({
-    'Loss': np.concatenate([
-        loss_retention_array_blocked_first,
-        loss_retention_array_random_first,
-        loss_test_array_blocked_first,
-        loss_test_array_random_first
-    ]),
-    'Phase': (
-        ['Retention'] * (len(loss_retention_array_blocked_first) + len(loss_retention_array_random_first))
-        + ['Transfer'] * (len(loss_test_array_blocked_first) + len(loss_test_array_random_first))
-    ),
-    'Type': (
-        ['RP'] * len(loss_retention_array_blocked_first)
-        + ['IP'] * len(loss_retention_array_random_first)
-        + ['RP'] * len(loss_test_array_blocked_first)
-        + ['IP'] * len(loss_test_array_random_first)
-    )
-})
-
-# dataframe for pre
-df_pre_first = pd.DataFrame({
-    'Loss': loss_test_array_pre_first,
-    'Phase': ['Pre'] * len(loss_test_array_pre_first),
-})
-
-# Create the violin plot
-plt.figure(figsize=(10, 6))
-# Pre violin plot (grey)
-sns.violinplot(
-    x='Phase',
-    y='Loss',
-    data=df_pre_first,
-    color='grey'
-)
-
-# Blocked/Random violin plot
-sns.violinplot(
-    x='Phase',
-    y='Loss',
-    hue='Type',
-    data=df_main_first,
-    order=['Retention', 'Transfer'],  # 먼저 retention/test
-    palette={'RP': '#1f77b4', 'IP': '#ff7f0e'},
-)
-
-plt.legend(title='Type', loc='upper left')
-plt.show()
 
 ## save all loss_* data into separate csv files
 pd.DataFrame(loss_test_pre_array).to_csv(results_folder + 'loss_test_pre_array.csv', index=False)
