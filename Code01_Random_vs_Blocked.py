@@ -141,7 +141,7 @@ print(f'Size of loss_retention_array_blocked_array: {loss_retention_array_blocke
 print(f'Size of loss_test_array_blocked_array: {loss_test_array_blocked_array.shape}')
 
 # create a folder name with the learning rate with replace . with _
-results_folder = f'Results_lr_{str(lr).replace(".", "_")}'
+results_folder = f'results_lr_{str(lr).replace(".", "_")}'
 # create a folder to save the results
 import os
 if not os.path.exists(results_folder):
