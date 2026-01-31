@@ -171,7 +171,7 @@ def plot_with_ci(data_blocked, data_random, xlabel, ylabel, title):
     #     else:
     #         star = ''
 
-    #     if star:  # 유의미하면 annotation
+    #     if star:  # if significant, do annotation
     #         y_max = max(mean_blocked[i] + ci_blocked[i], mean_random[i] + ci_random[i])
     #         plt.text(i, y_max + 0.05, star, ha='center', va='bottom', fontsize=12, color='red')
 
@@ -241,7 +241,7 @@ df_random = pd.DataFrame({
     'Condition': 'IP'
 })
 
-# 합치기
+# concat
 df_all = pd.concat([df_blocked, df_random], ignore_index=True)
 
 # Create the violin plot
@@ -249,7 +249,7 @@ plt.figure(figsize=(10, seq_num))
 sns.violinplot(
     x='Phase',
     y='Loss',
-    hue='Condition',       # Blocked vs Random 구분
+    hue='Condition',       # Blocked vs Random
     data=df_all,
     palette={'RP': '#1f77b4', 'IP': '#ff7f0e'},
 )
