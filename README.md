@@ -20,10 +20,6 @@
 
   * Contains core utility functions required to run the main experiments, including data generation, network model definitions, and training/evaluation helpers.
 
-* **`results/`**
-
-  * Stores all newly generated outputs and analysis results produced by running the main scripts.
-
 * **`Results_lr_0_02_save/`**
 
   * Contains the fixed result datasets used in the original paper experiments (learning rate = 0.02), preserved for reproducibility and reference.
