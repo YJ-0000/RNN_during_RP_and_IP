@@ -4,7 +4,7 @@ import matplotlib
 # matplotlib.use("Agg")  # Uncomment if necessary
 import matplotlib.pyplot as plt
 
-results_folder = 'results_lr_0_02_save/'
+results_folder = 'results_lr_0_02/'
 
 # load the results
 loss_test_pre_array = np.load(results_folder + 'loss_test_pre_array.npy')
