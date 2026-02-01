@@ -119,6 +119,7 @@ def vulnerability_test(X_retention, y_retention, X_test, y_test, model, criterio
     for repeat in range(num_repeat_noisy):
         # add noise to the weights
         if repeat > 0:
+            # initial repeat is for retaining performance before perturbation
             with torch.no_grad():
                 for param in model_noisy.parameters():
                     # generate gaussian noise
@@ -160,6 +161,7 @@ def vulnerability_test(X_retention, y_retention, X_test, y_test, model, criterio
     for repeat in range(num_repeat_pruned):
         # prune the weights
         if repeat > 0:
+            # initial repeat is for retaining performance before perturbation
             with torch.no_grad():
                 for param in model_pruned.parameters():
                     # randomly set a percentage of weights to zero
@@ -196,6 +198,7 @@ def vulnerability_test(X_retention, y_retention, X_test, y_test, model, criterio
     loss_test_interference_array = []
     for i in range(-batch_size, len(X_interference), batch_size):
         if i >= 0:
+            # initial repeat is for retaining performance before perturbation
             X_batch = torch.tensor(X_interference[i:i + batch_size], dtype=torch.float32)
             y_batch = torch.tensor(y_interference[i:i + batch_size], dtype=torch.float32)
             # Forward pass
