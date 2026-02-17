@@ -5,9 +5,9 @@
 
 ## 🚀 Main Scripts
 
-* **`Code01_Random_vs_Blocked.py`**
+* **`Code01_Interleaved_vs_Repetitive.py`**
 
-  * Trains two identical minimal RNNs on synthetic motor-sequence data under **Repetitive/Blocked Practice (RP)** and **Interleaved Practice (IP)**, then evaluates **pre-test, retention, and transfer** performance.
+  * Trains two identical minimal RNNs on synthetic motor-sequence data under **Repetitive/Blocked Practice (RP)** and **Interleaved/Random Practice (IP)**, then evaluates **pre-test, retention, and transfer** performance.
   * Repeats the full pipeline, performs vulnerability tests (**noise injection, weight pruning, interference retraining**), and saves all results as `.npy` files for downstream analysis.
 
 * **`Code02_Plot.py`**
