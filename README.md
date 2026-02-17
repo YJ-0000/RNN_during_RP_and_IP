@@ -22,6 +22,6 @@
 
 * **`results_lr_0_02_save/`**
 
-  * Contains the fixed result datasets used in the original paper experiments (learning rate = 0.02), preserved for reference.
+  * Contains the results used in the original paper experiments (learning rate = 0.02), preserved for reference.
 
 
